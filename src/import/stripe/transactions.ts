@@ -1,6 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { saveTransaction } from "../db";
+import { Transaction } from "../../models/transaction";
 
 dotenv.config();
 
@@ -38,7 +38,7 @@ const importPaypalData = async () => {
 
         if (batch.length >= batchSize) {
           await Promise.all(
-            batch.map((transaction) => saveTransaction(transaction))
+            batch.map((transaction) => Transaction.create(transaction))
           );
           batch = [];
         }
@@ -46,7 +46,7 @@ const importPaypalData = async () => {
 
       if (batch.length > 0) {
         await Promise.all(
-          batch.map((transaction) => saveTransaction(transaction))
+          batch.map((transaction) => Transaction.create(transaction))
         );
       }
 

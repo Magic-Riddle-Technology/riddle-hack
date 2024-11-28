@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { createWriteStream, existsSync, mkdirSync } from "fs";
 import PDFDocument from "pdfkit";
-import { Transaction } from "../../db";
+import { Transaction } from "../../src/models/transaction";
 
 async function getDateRange() {
   console.log("Determining date range...");

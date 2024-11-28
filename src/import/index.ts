@@ -83,21 +83,21 @@ const importTransactions = () =>
   importRutterData({
     path: "transactions",
     modelClass: Transaction,
-    accessTokenEnvKey: "STRIPE_TRANSACTIONS_RUTTER_ACCESS_TOKEN",
+    accessTokenEnvKey: "TRANSACTIONS_RUTTER_ACCESS_TOKEN",
   });
 
 const importOrders = () =>
   importRutterData({
     path: "orders",
     modelClass: Order,
-    accessTokenEnvKey: "STRIPE_ORDERS_RUTTER_ACCESS_TOKEN",
+    accessTokenEnvKey: "ORDERS_RUTTER_ACCESS_TOKEN",
   });
 
 const importPayouts = () =>
   importRutterData({
     path: "payouts",
     modelClass: Payout,
-    accessTokenEnvKey: "STRIPE_PAYOUTS_RUTTER_ACCESS_TOKEN",
+    accessTokenEnvKey: "PAYOUTS_RUTTER_ACCESS_TOKEN",
   });
 
 importTransactions().catch(console.error);

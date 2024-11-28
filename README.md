@@ -30,7 +30,8 @@ This tool helps us deliver quick solutions to merchants without an infrastructur
    - `TRANSACTIONS_RUTTER_ACCESS_TOKEN`: Access token for transactions (get from rutter)
    - `ORDERS_RUTTER_ACCESS_TOKEN`: Access token for orders (get from rutter)
    - `PAYOUTS_RUTTER_ACCESS_TOKEN`: Access token for payouts (get from rutter)
-   - `RUTTER_AUTH`: Rutter API key (get from rutter)
+   - `RUTTER_CLIENT_ID`: Rutter API Client ID (get from rutter)
+   - `RUTTER_CLIENT_SECRET`: Rutter API Client Secret (get from rutter)
    - `RUTTER_API_VERSION`: Rutter API version (get from rutter)
 
 ## Usage

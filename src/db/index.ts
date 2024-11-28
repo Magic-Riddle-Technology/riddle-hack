@@ -6,9 +6,11 @@ dotenv.config();
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://localhost:27017/chidi";
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log("Successfully connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
+export async function initializeDB() {
+  return mongoose.connect(MONGODB_URI).then(() => {
+    console.log("Successfully connected to MongoDB");
+    return mongoose.connection;
+  });
+}
 
 export default mongoose.connection;

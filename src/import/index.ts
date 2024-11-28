@@ -1,11 +1,13 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { initializeDB } from "../db";
 import { Order } from "../models/order";
 import { Payout } from "../models/payout";
 import { Transaction } from "../models/transaction";
 
 dotenv.config();
 
+await initializeDB();
 interface ImportConfig {
   path: string;
   modelClass: any;
@@ -81,23 +83,23 @@ const importTransactions = () =>
   importRutterData({
     path: "transactions",
     modelClass: Transaction,
-    accessTokenEnvKey: "STRIPE_RUTTER_ACCESS_TOKEN",
+    accessTokenEnvKey: "STRIPE_TRANSACTIONS_RUTTER_ACCESS_TOKEN",
   });
 
 const importOrders = () =>
   importRutterData({
     path: "orders",
     modelClass: Order,
-    accessTokenEnvKey: "STRIPE_RUTTER_ACCESS_TOKEN",
+    accessTokenEnvKey: "STRIPE_ORDERS_RUTTER_ACCESS_TOKEN",
   });
 
 const importPayouts = () =>
   importRutterData({
     path: "payouts",
     modelClass: Payout,
-    accessTokenEnvKey: "STRIPE_RUTTER_ACCESS_TOKEN",
+    accessTokenEnvKey: "STRIPE_PAYOUTS_RUTTER_ACCESS_TOKEN",
   });
 
-//importTransactions().catch(console.error);
+importTransactions().catch(console.error);
 //importOrders().catch(console.error);
 //importPayouts().catch(console.error);

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "import": "ts-node src/import/index.ts"
+    "import": "bun src/import/index.ts"
   },
   "keywords": [],
   "author": "",

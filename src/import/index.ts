@@ -37,7 +37,7 @@ const importRutterData = async ({
     try {
       const response = await axios.get(url, {
         headers: {
-          Authorization: process.env.RUTTER_AUTH,
+          Authorization: `Basic ${btoa(`${process.env.RUTTER_CLIENT_ID}:${process.env.RUTTER_CLIENT_SECRET}`)}}`,
           "X-Rutter-Version": process.env.RUTTER_API_VERSION,
         },
       });

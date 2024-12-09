@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "import": "bun src/import/index.ts"
+    "import": "bun src/import/index.ts",
+    "match:paypal": "bun src/processing/paypal/getMissingPaypalTransactions.ts",
+    "match:shopify": "bun src/processing/paypal/getMissingShopifyTransactions.ts"
   },
   "keywords": [],
   "author": "",

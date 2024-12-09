@@ -19,7 +19,7 @@ const importRutterData = async ({
   path,
   modelClass,
   accessTokenEnvKey,
-  batchSize = 500,
+  batchSize = 250,
 }: ImportConfig) => {
   const startTime = performance.now();
   let recordCount = 0;
@@ -30,19 +30,20 @@ const importRutterData = async ({
   let batch: any[] = [];
 
   while (hasMoreData) {
-    const url = `${baseUrl}?access_token=${accessToken}&expand=platform_data&limit=500${
+    const url = `${baseUrl}?access_token=${accessToken}&expand=platform_data&limit=${batchSize}${
       nextCursor ? `&cursor=${nextCursor}` : ""
     }`;
 
     try {
       const response = await axios.get(url, {
         headers: {
-          Authorization: `Basic ${btoa(`${process.env.RUTTER_CLIENT_ID}:${process.env.RUTTER_CLIENT_SECRET}`)}}`,
+          Authorization: `Basic ${btoa(
+            `${process.env.RUTTER_CLIENT_ID}:${process.env.RUTTER_CLIENT_SECRET}`
+          )}}`,
           "X-Rutter-Version": process.env.RUTTER_API_VERSION,
         },
       });
       const data = response.data;
-      // Get the records array using the path name (e.g., transactions, orders)
       const records = data[path];
 
       recordCount += records.length;

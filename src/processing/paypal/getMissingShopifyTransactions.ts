@@ -21,7 +21,7 @@ async function writeMissingTransactionsToCSV(missingTransactions: any[]) {
 }
 
 /**
- * This function will get all paypal transactions and will check if there is a shopify ghost transaction for that paypal transaction
+ * This function will get all paypal transactions and will check if there is a shopify record transaction for that paypal transaction
  * @returns writes a csv file with the paypal transaction IDs that are missing a shopify transaction
  */
 async function getMissingShopifyTransactions() {
@@ -30,6 +30,15 @@ async function getMissingShopifyTransactions() {
   const BATCH_SIZE = 500;
   const missingTransactions: any[] = [];
   let skip = 0;
+  let totalProcessed = 0;
+
+
+  const totalCount = await Transaction.countDocuments({
+    gateway: "Payflow Gateway",
+    status: "success"
+  });
+
+    console.log(`Total transactions to process: ${totalCount}`);
 
   while (true) {
     const paypalBatch = (await Transaction.find({
@@ -46,6 +55,9 @@ async function getMissingShopifyTransactions() {
       console.log("No more transactions to process");
       break;
     }
+
+    totalProcessed += paypalBatch.length;
+    console.log(`Processing batch ${skip/BATCH_SIZE + 1}. Progress: ${totalProcessed}/${totalCount} (${((totalProcessed/totalCount) * 100).toFixed(2)}%)`);
 
     for (const paypalTx of paypalBatch) {
       if (!paypalTx) continue;

@@ -27,7 +27,7 @@ async function writeMissingTransactionsToCSV(missingTransactions: any[]) {
 }
 
 /**
- * This function will get all shopify ghost transactions that are from paypal and will check if there is a paypal transaction for that shopify transaction
+ * This function will get all shopify record transactions that are from paypal and will check if there is a paypal transaction for that shopify transaction
  * @returns writes a csv file with the missing transaction IDs
  */
 async function getMissingPaypalTransactions() {
@@ -38,7 +38,7 @@ async function getMissingPaypalTransactions() {
   let skip = 0;
 
   while (true) {
-    const paypalBatch = (await Transaction.find({
+    const shopifyPaypalBatch = (await Transaction.find({
       gateway: "paypal",
       status: "success",
     })
@@ -46,19 +46,19 @@ async function getMissingPaypalTransactions() {
       .limit(BATCH_SIZE)
       .lean()) as any;
 
-    if (paypalBatch.length === 0) break;
+    if (shopifyPaypalBatch.length === 0) break;
 
-    for (const paypalTx of paypalBatch) {
-      if (!paypalTx.platform_data.receipt) {
-        console.log("No receipt", paypalTx.platform_id);
+    for (const shopifyPaypalTxn of shopifyPaypalBatch) {
+      if (!shopifyPaypalTxn.platform_data.receipt) {
+        console.log("No receipt", shopifyPaypalTxn.platform_id);
         continue;
       }
 
       let potentialPaypalId =
-        paypalTx.platform_data.receipt.transaction_id ||
-        paypalTx.platform_data.receipt.refund_transaction_id;
+        shopifyPaypalTxn.platform_data.receipt.transaction_id ||
+        shopifyPaypalTxn.platform_data.receipt.refund_transaction_id;
 
-      const matchingShopifyTx = await Transaction.findOne({
+      const matchingPaypalTxn = await Transaction.findOne({
         gateway: "Payflow Gateway",
         $or: [
           {
@@ -67,8 +67,8 @@ async function getMissingPaypalTransactions() {
         ],
       }).lean();
 
-      if (!matchingShopifyTx) {
-        missingTransactions.push(paypalTx);
+      if (!matchingPaypalTxn) {
+        missingTransactions.push(shopifyPaypalTxn);
       }
     }
 

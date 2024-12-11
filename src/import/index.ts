@@ -19,7 +19,7 @@ const importRutterData = async ({
   path,
   modelClass,
   accessTokenEnvKey,
-  batchSize = 250,
+  batchSize = 500,
 }: ImportConfig) => {
   const startTime = performance.now();
   let recordCount = 0;
@@ -30,7 +30,7 @@ const importRutterData = async ({
   let batch: any[] = [];
 
   while (hasMoreData) {
-    const url = `${baseUrl}?access_token=${accessToken}&expand=platform_data&limit=${batchSize}${
+    const url = `${baseUrl}?access_token=${accessToken}&created_at_min=1730419200000&created_at_max=1730937600000&expand=platform_data&limit=${batchSize}${
       nextCursor ? `&cursor=${nextCursor}` : ""
     }`;
 
